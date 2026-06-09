@@ -34,11 +34,36 @@ export const config = {
   // will be called from there.
   //
   specs: ['./test/specs/**/*.e2e.js'],
-  // Patterns to exclude.
-  exclude: [
-    // 'path/to/excluded/files'
-  ],
-  // injectGlobals: false,
+  exclude: [],
+
+  suites: {
+    smoke: ['./test/specs/smoke/**/*.e2e.js'],
+    sanity: [
+      './test/specs/smoke/**/*.e2e.js',
+      './test/specs/auth/login.e2e.js',
+      './test/specs/general/home.e2e.js',
+      './test/specs/projects/proposal-creation-core.e2e.js'
+    ],
+    regression: ['./test/specs/**/*.e2e.js'],
+    layout: ['./test/specs/layout/**/*.e2e.js'],
+    auth: ['./test/specs/auth/**/*.e2e.js'],
+    account: ['./test/specs/account/**/*.e2e.js'],
+    admin: ['./test/specs/admin/**/*.e2e.js'],
+    general: ['./test/specs/general/**/*.e2e.js'],
+    'proposal-all': ['./test/specs/projects/**/*.e2e.js'],
+    'proposal-core': ['./test/specs/projects/proposal-creation-core.e2e.js'],
+    'proposal-benefit': ['./test/specs/projects/proposal-benefit-area.e2e.js'],
+    'proposal-dates': ['./test/specs/projects/proposal-important-dates.e2e.js'],
+    'proposal-risk': ['./test/specs/projects/proposal-risk-properties.e2e.js'],
+    'proposal-funding': ['./test/specs/projects/proposal-funding-sources.e2e.js'],
+    'proposal-env': ['./test/specs/projects/proposal-environmental-benefits.e2e.js'],
+    'proposal-nfm': ['./test/specs/projects/proposal-nfm.e2e.js'],
+    'proposal-wlc': ['./test/specs/projects/proposal-wlc.e2e.js'],
+    'proposal-wlb': ['./test/specs/projects/proposal-wlb.e2e.js'],
+    'proposal-carbon': ['./test/specs/projects/proposal-carbon-impact.e2e.js'],
+    'proposal-goals': ['./test/specs/projects/proposal-goals-confidence.e2e.js'],
+    'proposal-overview': ['./test/specs/projects/proposal-overview.e2e.js']
+  },
   //
   // ============
   // Capabilities
@@ -266,12 +291,8 @@ export const config = {
     context,
     { error, result, duration, passed, retries }
   ) {
-    await browser.takeScreenshot()
-
     if (error) {
-      browser.executeScript(
-        'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion failed"}}'
-      )
+      await browser.takeScreenshot()
     }
   },
 

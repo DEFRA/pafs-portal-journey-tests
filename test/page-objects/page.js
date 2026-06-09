@@ -5,6 +5,10 @@ class Page {
     return $('h1')
   }
 
+  get pageTitle() {
+    return browser.getTitle()
+  }
+
   open(path) {
     return browser.url(path)
   }

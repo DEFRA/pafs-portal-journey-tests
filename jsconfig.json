@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "baseUrl": "./",
     "paths": {
       "~/*": ["./*"],
       "page-objects/*": ["./test/page-objects/*"],
-      "components/*": ["./test/components/*"]
+      "components/*": ["./test/components/*"],
+      "helpers/*": ["./test/helpers/*"],
+      "fixtures/*": ["./test/fixtures/*"],
+      "constants/*": ["./test/constants/*"]
     }
   },
   "exclude": ["node_modules", "build", "docker"]

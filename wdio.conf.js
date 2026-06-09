@@ -14,17 +14,52 @@ export const config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: `https://pafs-portal-journey-tests.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
+  baseUrl:
+    process.env.TEST_BASE_URL ||
+    `https://pafs-portal-frontend.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`,
 
   // Connection to remote chromedriver
   hostname: process.env.CHROMEDRIVER_URL || '127.0.0.1',
   port: process.env.CHROMEDRIVER_PORT || 4444,
 
-  // Tests to run
-  specs: ['./test/specs/**/*.js'],
-  // Tests to exclude
+  // Tests to run — overridden per suite below
+  specs: ['./test/specs/**/*.e2e.js'],
   exclude: [],
   maxInstances: 1,
+
+  suites: {
+    smoke: ['./test/specs/smoke/**/*.e2e.js'],
+    sanity: [
+      './test/specs/smoke/**/*.e2e.js',
+      './test/specs/layout/**/*.e2e.js',
+      './test/specs/auth/login.e2e.js',
+      './test/specs/general/home.e2e.js',
+      './test/specs/admin/journey-selection.e2e.js',
+      './test/specs/projects/proposal-creation-core.e2e.js'
+    ],
+    regression: ['./test/specs/**/*.e2e.js'],
+    layout: ['./test/specs/layout/**/*.e2e.js'],
+    auth: ['./test/specs/auth/**/*.e2e.js'],
+    account: ['./test/specs/account/**/*.e2e.js'],
+    admin: ['./test/specs/admin/**/*.e2e.js'],
+    general: ['./test/specs/general/**/*.e2e.js'],
+
+    // ── Proposal suites ──────────────────────────────────────────────────────
+    'proposal-all': ['./test/specs/projects/**/*.e2e.js'],
+
+    'proposal-core': ['./test/specs/projects/proposal-creation-core.e2e.js'],
+    'proposal-benefit': ['./test/specs/projects/proposal-benefit-area.e2e.js'],
+    'proposal-dates': ['./test/specs/projects/proposal-important-dates.e2e.js'],
+    'proposal-risk': ['./test/specs/projects/proposal-risk-properties.e2e.js'],
+    'proposal-funding': ['./test/specs/projects/proposal-funding-sources.e2e.js'],
+    'proposal-env': ['./test/specs/projects/proposal-environmental-benefits.e2e.js'],
+    'proposal-nfm': ['./test/specs/projects/proposal-nfm.e2e.js'],
+    'proposal-wlc': ['./test/specs/projects/proposal-wlc.e2e.js'],
+    'proposal-wlb': ['./test/specs/projects/proposal-wlb.e2e.js'],
+    'proposal-carbon': ['./test/specs/projects/proposal-carbon-impact.e2e.js'],
+    'proposal-goals': ['./test/specs/projects/proposal-goals-confidence.e2e.js'],
+    'proposal-overview': ['./test/specs/projects/proposal-overview.e2e.js']
+  },
 
   capabilities: [
     {
@@ -95,7 +130,8 @@ export const config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
-    timeout: oneMinute
+    timeout: oneMinute,
+    grep: process.env.WDIO_GREP
   },
   //
   // =====

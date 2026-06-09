@@ -1,9 +1,2 @@
-import { Page } from 'page-objects/page'
-
-class HomePage extends Page {
-  open() {
-    return super.open('/')
-  }
-}
-
-export default new HomePage()
+// Re-export from the canonical location so any existing imports still resolve.
+export { default } from 'page-objects/general/home.page.js'

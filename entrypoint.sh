@@ -1,7 +1,11 @@
 #!/bin/sh
 
 echo "run_id: $RUN_ID"
-npm test
+
+SUITE=${TEST_SUITE:-regression}
+echo "suite:  $SUITE"
+
+npm run "test:$SUITE"
 
 npm run report:publish
 publish_exit_code=$?
